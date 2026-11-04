@@ -822,9 +822,14 @@ footer a {
 
   .profile-column {
     float: none;
-    width: auto;
+    width: 100%;
     margin: 0 0 1rem;
     align-items: flex-start;
+  }
+
+  .profile-photo,
+  .social-placeholders {
+    align-self: center;
   }
 
   .profile-photo {
@@ -832,7 +837,8 @@ footer a {
   }
 
   .social-placeholders {
-    justify-content: flex-start;
+    justify-content: center;
+    width: 12.5rem;
   }
 
   footer {
