@@ -755,6 +755,18 @@ footer a {
     grid-template-columns: 1fr;
   }
 
+  .other-grid .tune-note {
+    aspect-ratio: auto;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .other-grid .tune-note iframe {
+    flex: none;
+    height: 480px;
+    min-height: 480px;
+  }
+
   .experience-role-heading {
     grid-template-columns: 1fr;
     gap: 0.2rem;
