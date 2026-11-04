@@ -1,6 +1,6 @@
-# Angelica Chowdhury - research site
+# Angelica Chowdhury - Personal site
 
-Static site for [angie0angie.nekoweb.org](https://angie0angie.nekoweb.org). No build step.
+Static site for [angie0angie.nekoweb.org](https://angie0angie.nekoweb.org).
 
 ## Files
 
