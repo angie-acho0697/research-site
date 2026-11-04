@@ -6,6 +6,6 @@ Static site for [angie0angie.nekoweb.org](https://angie0angie.nekoweb.org).
 
 - `index.html` - page content
 - `style.css` - layout and visual design
-- `photos` - fixed page background and image in the site
+- `photos` - fixed page background and image on the site
 
 
