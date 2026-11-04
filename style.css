@@ -810,6 +810,16 @@ footer a {
     gap: 0.35rem;
   }
 
+  .intro-copy p:not(.eyebrow),
+  .entry-summary {
+    text-align: left;
+    text-justify: auto;
+  }
+
+  a {
+    text-underline-offset: 0.08em;
+  }
+
   .profile-column {
     float: none;
     width: auto;
