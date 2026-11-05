@@ -755,6 +755,22 @@ footer a {
   }
 }
 
+@media (min-width: 821px) and (max-width: 1800px) {
+  .other-grid {
+    align-items: stretch;
+  }
+
+  .other-grid article {
+    aspect-ratio: auto;
+  }
+
+  .other-grid .photo-note,
+  .other-grid .note-card {
+    height: 0;
+    min-height: 100%;
+  }
+}
+
 @media (max-width: 820px) {
   nav {
     gap: 0.4rem 0.75rem;
