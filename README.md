@@ -1,6 +1,8 @@
 # Angelica Chowdhury - Personal site
 
-Static site for [angie0angie.nekoweb.org](https://angie0angie.nekoweb.org).
+
+Static site [angie0angie.is-a.dev](http://angie0angie.is-a.dev).
+Backup site [angie0angie.nekoweb.org](https://angie0angie.nekoweb.org).
 
 ## Files
 

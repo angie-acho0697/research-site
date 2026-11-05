@@ -741,6 +741,20 @@ footer a {
   text-transform: none;
 }
 
+@media (max-width: 1800px) {
+  .other-grid .tune-note {
+    aspect-ratio: auto;
+    height: auto;
+    overflow: hidden;
+  }
+
+  .other-grid .tune-note iframe {
+    flex: none;
+    height: 480px;
+    min-height: 480px;
+  }
+}
+
 @media (max-width: 820px) {
   nav {
     gap: 0.4rem 0.75rem;
@@ -753,18 +767,6 @@ footer a {
 
   .other-grid {
     grid-template-columns: 1fr;
-  }
-
-  .other-grid .tune-note {
-    aspect-ratio: auto;
-    height: auto;
-    overflow: hidden;
-  }
-
-  .other-grid .tune-note iframe {
-    flex: none;
-    height: 480px;
-    min-height: 480px;
   }
 
   .experience-role-heading {
