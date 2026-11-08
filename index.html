@@ -426,7 +426,9 @@
 
           <article class="tune-note">
             <p class="meta">Lately Listening</p>
+            <ol class="playlist-picks" id="playlist-picks"></ol>
             <iframe
+              id="playlist-player"
               title="Repeatworthy playlist on YouTube Music"
               src="https://www.youtube.com/embed/videoseries?list=PLG8B4zAouMmc"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -446,6 +448,41 @@
       <a href="#main">Back to top ↑</a>
     </footer>
   </div>
+  <script>
+    (function () {
+      var tracks = [
+        { id: "mpEp2roKSjI", title: "Khruangbin - Pon Pón (Official Video)" },
+        { id: "Te1HkBx7rDw", title: "Angine de Poitrine - Mata Zyklek (Live on KEXP)" },
+        { id: "t7OIc-DBRXM", title: "Angine de Poitrine - Sarniezz (Live on KEXP)" },
+        { id: "pRgHYWOtqqc", title: "Angine de Poitrine - Fabienk (Live on KEXP)" },
+        { id: "WsNZAsUvW9Y", title: "Victoria Amazonica" },
+        { id: "nfuzZ1wdgps", title: "Candiru" },
+        { id: "wYgi2xXE0-M", title: "Death Bat" },
+        { id: "sfDtfz7vXkY", title: "Angine de Poitrine - Sherpa (Live on KEXP)" }
+      ];
+      var list = document.getElementById("playlist-picks");
+      var frame = document.getElementById("playlist-player");
+      if (!list || !frame) return;
+      for (var i = tracks.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var swap = tracks[i];
+        tracks[i] = tracks[j];
+        tracks[j] = swap;
+      }
+      var picks = tracks.slice(0, 4);
+      picks.forEach(function (track) {
+        var item = document.createElement("li");
+        var link = document.createElement("a");
+        link.href = "https://www.youtube.com/watch?v=" + track.id + "&list=PLG8B4zAouMmc";
+        link.target = "_blank";
+        link.rel = "noopener";
+        link.textContent = track.title;
+        item.appendChild(link);
+        list.appendChild(item);
+      });
+      frame.src = "https://www.youtube.com/embed/" + picks[0].id + "?playlist=" + picks.slice(1).map(function (track) { return track.id; }).join(",");
+    })();
+  </script>
   <script>
     (function () {
       var updated = document.getElementById("last-updated");
