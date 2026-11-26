@@ -489,7 +489,7 @@
         frame.src = "https://www.youtube.com/embed/" + picks[0].id + (rest ? "?playlist=" + rest : "");
       }
 
-      fetch("playlist.json", { cache: "no-store" })
+      fetch(".github/workflows/playlist.json", { cache: "no-store" })
         .then(function (response) {
           if (!response.ok) throw new Error("playlist");
           return response.json();

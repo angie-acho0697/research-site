@@ -20,12 +20,13 @@ jobs:
           ref: main
 
       - name: Fetch playlist
-        run: python3 scripts/fetch_playlist.py playlist.json
+        run: python3 scripts/fetch_playlist.py .github/workflows/playlist.json
 
       - name: Prepare site files
         run: |
-          mkdir site
-          cp index.html style.css playlist.json site/
+          mkdir -p site/.github/workflows
+          cp index.html style.css .nojekyll site/
+          cp .github/workflows/playlist.json site/.github/workflows/playlist.json
           cp -r photos site/photos
 
       - name: Deploy to Nekoweb
@@ -43,14 +44,18 @@ jobs:
           import subprocess
           from pathlib import Path
 
-          new = json.loads(Path("playlist.json").read_text(encoding="utf-8"))
+          playlist_path = Path(".github/workflows/playlist.json")
+          new = json.loads(playlist_path.read_text(encoding="utf-8"))
 
           def tracks(document):
-              return [(item.get("id"), item.get("title")) for item in document.get("tracks", [])]
+              if not isinstance(document, dict):
+                  return None
+              items = document.get("tracks") or []
+              return [(item.get("id"), item.get("title")) for item in items if isinstance(item, dict)]
 
           try:
               old_raw = subprocess.check_output(
-                  ["git", "show", "HEAD:playlist.json"],
+                  ["git", "show", "HEAD:.github/workflows/playlist.json"],
                   stderr=subprocess.DEVNULL,
               )
               old = json.loads(old_raw)
@@ -62,7 +67,7 @@ jobs:
           print("playlist changed" if changed else "playlist unchanged")
           PY
           if [ "$(cat .playlist-changed)" = "yes" ]; then
-            git add playlist.json
+            git add .github/workflows/playlist.json
             git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Update playlist from YouTube feed [skip ci]"
             git push origin HEAD:main
           fi
