@@ -7,12 +7,17 @@ on:
     - cron: "0 0 * * *"
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Fetch playlist
         run: python3 scripts/fetch_playlist.py playlist.json
@@ -30,3 +35,34 @@ jobs:
           nekoweb-domain: angie0angie.nekoweb.org
           nekoweb-username: angie0angie
           directory: site
+
+      - name: Publish playlist to GitHub Pages
+        run: |
+          python3 - << 'PY'
+          import json
+          import subprocess
+          from pathlib import Path
+
+          new = json.loads(Path("playlist.json").read_text(encoding="utf-8"))
+
+          def tracks(document):
+              return [(item.get("id"), item.get("title")) for item in document.get("tracks", [])]
+
+          try:
+              old_raw = subprocess.check_output(
+                  ["git", "show", "HEAD:playlist.json"],
+                  stderr=subprocess.DEVNULL,
+              )
+              old = json.loads(old_raw)
+          except subprocess.CalledProcessError:
+              old = None
+
+          changed = tracks(new) != tracks(old)
+          Path(".playlist-changed").write_text("yes" if changed else "no", encoding="utf-8")
+          print("playlist changed" if changed else "playlist unchanged")
+          PY
+          if [ "$(cat .playlist-changed)" = "yes" ]; then
+            git add playlist.json
+            git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Update playlist from YouTube feed [skip ci]"
+            git push origin HEAD:main
+          fi
