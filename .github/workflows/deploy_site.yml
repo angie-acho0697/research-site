@@ -20,13 +20,12 @@ jobs:
           ref: main
 
       - name: Fetch playlist
-        run: python3 scripts/fetch_playlist.py .github/workflows/playlist.json
+        run: python3 scripts/fetch_playlist.py playlist.json
 
       - name: Prepare site files
         run: |
-          mkdir -p site/.github/workflows
-          cp index.html style.css .nojekyll site/
-          cp .github/workflows/playlist.json site/.github/workflows/playlist.json
+          mkdir site
+          cp index.html style.css playlist.json site/
           cp -r photos site/photos
 
       - name: Deploy to Nekoweb
@@ -44,7 +43,7 @@ jobs:
           import subprocess
           from pathlib import Path
 
-          playlist_path = Path(".github/workflows/playlist.json")
+          playlist_path = Path("playlist.json")
           new = json.loads(playlist_path.read_text(encoding="utf-8"))
 
           def tracks(document):
@@ -55,7 +54,7 @@ jobs:
 
           try:
               old_raw = subprocess.check_output(
-                  ["git", "show", "HEAD:.github/workflows/playlist.json"],
+                  ["git", "show", "HEAD:playlist.json"],
                   stderr=subprocess.DEVNULL,
               )
               old = json.loads(old_raw)
@@ -67,7 +66,8 @@ jobs:
           print("playlist changed" if changed else "playlist unchanged")
           PY
           if [ "$(cat .playlist-changed)" = "yes" ]; then
-            git add .github/workflows/playlist.json
+            git add playlist.json
+            git rm -f --ignore-unmatch .github/workflows/playlist.json
             git -c user.name="github-actions[bot]" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -m "Update playlist from YouTube feed [skip ci]"
             git push origin HEAD:main
           fi
