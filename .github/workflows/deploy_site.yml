@@ -3,6 +3,9 @@ name: Publish site
 on:
   push:
     branches: ["main"]
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -11,10 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Fetch playlist
+        run: python3 scripts/fetch_playlist.py playlist.json
+
       - name: Prepare site files
         run: |
           mkdir site
-          cp index.html style.css site/
+          cp index.html style.css playlist.json site/
           cp -r photos site/photos
 
       - name: Deploy to Nekoweb
